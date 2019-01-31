@@ -1,4 +1,4 @@
-#!/usr/bin/python
+!/usr/bin/python
 #from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 #from os import curdir, sep
 #from urlparse import urlparse
