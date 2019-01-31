@@ -1,10 +1,24 @@
 #!/usr/bin/python
-from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
-from os import curdir, sep
-from urlparse import urlparse
-from urlparse import urlparse, parse_qs
-PORT_NUMBER = 5000
+#from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
+#from os import curdir, sep
+#from urlparse import urlparse
+#from urlparse import urlparse, parse_qs
+#PORT_NUMBER = 5000
 
+try:
+	from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
+except:
+	from http.server import BaseHTTPRequestHandler,HTTPServer
+from os import curdir, sep
+try:
+	from urlparse import urlparse
+	from urlparse import urlparse, parse_qs
+except:
+	from urllib.parse import urlparse, parse_qs
+
+import os
+port = int(os.environ.get("PORT", 5000))	
+PORT_NUMBER = port  
 
 sensor=0
 #This class will handles any incoming request from
@@ -77,7 +91,12 @@ class myHandler(BaseHTTPRequestHandler):
                                 self.end_headers()
                                 data=f.read()
                                 data= data.replace('SensorPrimero',str(SensorPrimero)).replace('SensorSegundo',str(SensorSegundo))
-                                self.wfile.write(data)
+                                #self.wfile.write(data)
+                                #f.close()
+                                try:
+                                        self.wfile.write(data)
+                                except:
+                                        self.wfile.write(bytes(data, 'UTF-8'))
                                 f.close()
                         return
 
